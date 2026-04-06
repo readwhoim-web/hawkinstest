@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>霍金斯意識能量測試 2.0</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;background:#f8f7f4;color:#1a1a18;min-height:100vh}
+.page{max-width:720px;margin:0 auto;padding:2rem 1.25rem}
+h1.site-title{font-size:14px;font-weight:500;color:#888;margin-bottom:2rem;letter-spacing:0.02em}
+.prog-bar{height:3px;background:#e5e3db;border-radius:2px;margin-bottom:1.5rem}
+.prog-fill{height:100%;border-radius:2px;background:#534AB7;transition:width 0.4s}
+.q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem}
+.q-num{font-size:12px;color:#888}
+.q-cat{font-size:11px;padding:3px 8px;border-radius:20px;background:#eeede8;color:#666}
+.q-text{font-size:17px;font-weight:500;line-height:1.6;margin-bottom:1.75rem}
+.slider-wrap{background:#fff;border:0.5px solid #ddd;border-radius:12px;padding:1.5rem}
+.slider-labels{display:flex;justify-content:space-between;font-size:12px;color:#888;margin-bottom:10px}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:#e5e3db;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#534AB7;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#534AB7;cursor:pointer;border:2px solid #fff}
+.slider-val-row{display:flex;justify-content:center;margin-top:14px}
+.slider-val{font-size:26px;font-weight:500;color:#534AB7;width:40px;text-align:center}
+.slider-desc{font-size:13px;color:#888;text-align:center;margin-top:4px;min-height:20px}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:2rem}
+.btn-pri{background:#534AB7;color:white;border:none;border-radius:8px;padding:11px 28px;font-size:15px;font-weight:500;cursor:pointer;transition:opacity 0.15s}
+.btn-pri:hover{opacity:0.88}
+.btn-sec{background:transparent;border:0.5px solid #ccc;border-radius:8px;padding:11px 20px;font-size:14px;cursor:pointer;color:#666;transition:background 0.15s}
+.btn-sec:hover{background:#f0ede8}
+.intro-h{font-size:28px;font-weight:500;margin-bottom:1rem}
+.intro-p{font-size:15px;color:#555;line-height:1.75;margin-bottom:0.75rem}
+.scale-row{display:flex;gap:3px;margin:1.5rem 0 0.4rem}
+.sp{flex:1;height:8px;border-radius:4px}
+.sp-lbl{display:flex;justify-content:space-between;font-size:11px;color:#888;margin-bottom:1.5rem}
+.tag-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:1rem 0 2rem}
+.tag{background:#fff;border:0.5px solid #ddd;border-radius:8px;padding:10px;font-size:13px;color:#555;text-align:center}
+.big-num{font-size:60px;font-weight:500;line-height:1}
+.level-name{font-size:22px;font-weight:500;margin-left:10px}
+.bar-wrap{height:14px;background:#e5e3db;border-radius:7px;margin:1.25rem 0;overflow:hidden}
+.bar-fill{height:100%;border-radius:7px;transition:width 1.2s ease}
+.res-card{background:#fff;border:0.5px solid #e0ddd6;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.res-card h3{font-size:11px;font-weight:500;color:#888;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em}
+.res-card p{font-size:14px;color:#333;line-height:1.7}
+.dim-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:1rem}
+.dim-card{background:#f8f7f4;border-radius:8px;padding:10px 12px}
+.dim-label{font-size:11px;color:#888;margin-bottom:4px}
+.dim-bar-wrap{height:5px;background:#e5e3db;border-radius:3px;margin-bottom:5px;overflow:hidden}
+.dim-bar{height:100%;border-radius:3px}
+.dim-score{font-size:13px;font-weight:500}
+.levels-list{display:flex;flex-direction:column;gap:3px;margin-top:0.5rem}
+.lv-row{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;font-size:13px}
+.lv-row.active{background:#f8f7f4}
+.lv-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.lv-n{font-weight:500;min-width:64px}
+.lv-r{color:#888;font-size:11px;flex:1}
+.tip-box{border:0.5px solid #e0ddd6;border-radius:12px;padding:1.25rem;margin-top:1rem}
+.tip-box h3{font-size:12px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px}
+.tip-box ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+.tip-box li{font-size:14px;color:#444;padding-left:14px;position:relative;line-height:1.6}
+.tip-box li::before{content:"·";position:absolute;left:0;color:#888}
+.note{font-size:11px;color:#999;margin-top:1.5rem;line-height:1.7}
+.btn-row{display:flex;gap:10px;margin-top:1.5rem;flex-wrap:wrap}
+footer{text-align:center;font-size:11px;color:#bbb;margin-top:3rem;padding-bottom:2rem}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="site-title">霍金斯意識能量測試 2.0</div>
+<div id="app"></div>
+<footer>基於大衛·霍金斯博士（David R. Hawkins）《心靈能量》理論設計 · 僅供自我反思參考</footer>
+</div>
+
+<script>
+const LEVELS=[
+  {min:0,max:20,name:"羞恥",en:"Shame",color:"#7F1D1D",dot:"#DC2626",tips:["嘗試每天寫下一件自己做得好的小事","尋求心理諮詢或信任的朋友傾訴","避免與批判性環境過多接觸"]},
+  {min:21,max:50,name:"內疚",en:"Guilt",color:"#78350F",dot:"#D97706",tips:["練習自我寬恕：每個人都會犯錯","寫下你從過去錯誤中學到的","與善解人意的人分享你的感受"]},
+  {min:51,max:75,name:"冷漠",en:"Apathy",color:"#374151",dot:"#6B7280",tips:["從最微小的行動開始，不要強求","找一件讓你有些許感興趣的事","規律運動可以提升基本的活力"]},
+  {min:76,max:100,name:"悲傷",en:"Grief",color:"#1E3A5F",dot:"#3B82F6",tips:["允許自己悲傷，情緒需要被感受","寫日記記錄你的感受和想法","悲傷比冷漠有更多能量，你在前進"]},
+  {min:101,max:125,name:"恐懼",en:"Fear",color:"#4C1D95",dot:"#7C3AED",tips:["學習腹式呼吸或冥想緩解焦慮","把恐懼寫下來，問：最壞的情況是什麼？","每天做一件微小的勇敢事"]},
+  {min:126,max:150,name:"慾望",en:"Desire",color:"#831843",dot:"#EC4899",tips:["分辨需要和想要的區別","練習感恩你已擁有的","慾望可以成為動力，關鍵在方向"]},
+  {min:151,max:175,name:"憤怒",en:"Anger",color:"#7F1D1D",dot:"#EF4444",tips:["找到健康的憤怒出口（運動、藝術）","問自己：憤怒背後是什麼恐懼？","憤怒是比冷漠更高的能量，善用它"]},
+  {min:176,max:199,name:"驕傲",en:"Pride",color:"#78350F",dot:"#F59E0B",tips:["練習虛心接受他人意見","欣賞他人的成就而非比較","驕傲是進入勇氣的跳板"]},
+  {min:200,max:250,name:"勇氣",en:"Courage",color:"#064E3B",dot:"#10B981",tips:["主動承擔新的挑戰和責任","把失敗視為學習而非失敗","你已跨越200分臨界點，繼續前進！"]},
+  {min:251,max:310,name:"中立",en:"Neutrality",color:"#1E3A5F",dot:"#3B82F6",tips:["練習不執著於特定結果","培養靈活適應變化的能力","放下對正確結果的執念"]},
+  {min:311,max:350,name:"意願",en:"Willingness",color:"#1A4731",dot:"#22C55E",tips:["為你的目標制定具體計劃","找到激勵你的導師或榜樣","把意願轉化為每日行動"]},
+  {min:351,max:400,name:"接納",en:"Acceptance",color:"#312E81",dot:"#6366F1",tips:["練習正念，活在當下","接受你無法控制的，改變你能控制的","欣賞生命本身的豐富多樣"]},
+  {min:401,max:500,name:"理性",en:"Reason",color:"#1E3A5F",dot:"#0EA5E9",tips:["深入鑽研你感興趣的知識領域","學習系統性思考和批判思維","用理性服務愛，而非替代愛"]},
+  {min:501,max:540,name:"愛",en:"Love",color:"#831843",dot:"#F43F5E",tips:["擴大你的愛：從自我到家人到陌生人","每天做一件無條件付出的事","你的存在本身是他人的禮物"]},
+  {min:541,max:600,name:"喜悅",en:"Joy",color:"#4C1D95",dot:"#A855F7",tips:["活在當下，感受每個時刻的完整","把你的喜悅和智慧分享給他人","內在喜悅不依賴外界，繼續守護它"]},
+  {min:601,max:700,name:"平和",en:"Peace",color:"#064E3B",dot:"#14B8A6",tips:["在靜默中找到你的中心","你是周圍人的定海神針","繼續成為你想在世界上看到的光"]},
+  {min:701,max:1000,name:"開悟",en:"Enlightenment",color:"#78350F",dot:"#F59E0B",tips:["你的存在本身即是恩典","帶領他人走向光明是你的天賦使命","保持謙遜，智慧越深越輕盈"]}
+];
+
+const DIMS=[
+  {key:"emotion",label:"情緒狀態"},
+  {key:"relation",label:"人際能量"},
+  {key:"meaning",label:"生命意義"},
+  {key:"selfview",label:"自我認知"},
+  {key:"future",label:"未來觀感"}
+];
+
+const QUESTIONS=[
+  {text:"當你感到受傷或被誤解，你通常怎麼處理這份痛苦？",cat:"情緒狀態",dim:"emotion",lo:"完全壓抑，或陷入很久",hi:"很快消化，保持平靜"},
+  {text:"面對突如其來的壞消息，你第一反應的穩定程度是？",cat:"情緒狀態",dim:"emotion",lo:"極度慌亂崩潰",hi:"接受現實，冷靜應對"},
+  {text:"你對自己的情緒有多少覺察和理解？",cat:"情緒狀態",dim:"emotion",lo:"完全不了解自己的情緒",hi:"清晰覺察每個情緒的來源"},
+  {text:"你對日常生活中普通的美好事物（陽光、一杯茶）有多少感恩？",cat:"情緒狀態",dim:"emotion",lo:"幾乎感覺不到任何美好",hi:"時刻感受生命的豐盛"},
+  {text:"當你身處擁擠或複雜的社交場合，你的感受是？",cat:"人際能量",dim:"relation",lo:"極度消耗，想立即逃離",hi:"充滿活力，享受人與人的連結"},
+  {text:"你是否真心為他人的成功感到高興，不帶任何嫉妒？",cat:"人際能量",dim:"relation",lo:"幾乎不可能，嫉妒感很強",hi:"完全真心，欣賞他人的光芒"},
+  {text:"你在人際關係中付出愛和關心的程度是？",cat:"人際能量",dim:"relation",lo:"幾乎不付出，先保護自己",hi:"慷慨無條件，愛是自然流露"},
+  {text:"當有人批評你，你多快能回到內心的平靜？",cat:"人際能量",dim:"relation",lo:"需要很多天才能平復",hi:"幾乎不受影響，立即平靜"},
+  {text:"你覺得自己的存在對這個世界有多少意義和價值？",cat:"生命意義",dim:"meaning",lo:"完全感覺不到任何意義",hi:"深切感受到自己存在的目的"},
+  {text:"你對你正在做的事（工作、生活）有多少熱情和動力？",cat:"生命意義",dim:"meaning",lo:"毫無動力，只是在度過",hi:"充滿熱情，深感有意義"},
+  {text:"你接受生命中「不確定性」和「無常」的程度是？",cat:"生命意義",dim:"meaning",lo:"對不確定感到極度焦慮",hi:"完全接受，視無常為自然"},
+  {text:"你對自己的人生選擇和方向有多少清晰感？",cat:"生命意義",dim:"meaning",lo:"完全迷失，不知道往哪走",hi:"清晰明確，每步都有意識"},
+  {text:"你對自己的真實自我（非表演給別人看的）有多少接納？",cat:"自我認知",dim:"selfview",lo:"深度厭惡自己的某些部分",hi:"完全接納，愛自己的一切面向"},
+  {text:"當你獨處時，你的內心是安靜充實的，還是空虛焦慮的？",cat:"自我認知",dim:"selfview",lo:"極度空虛，無法面對自己",hi:"獨處時感到圓滿和充電"},
+  {text:"你對自己的能力和價值的信心程度是？",cat:"自我認知",dim:"selfview",lo:"極度自卑，認為自己一無是處",hi:"穩固的自我價值感，不依賴他人認可"},
+  {text:"你能夠誠實面對自己的陰暗面和缺點，不迴避嗎？",cat:"自我認知",dim:"selfview",lo:"完全不願意看自己的缺點",hi:"坦然面對，視之為成長機會"},
+  {text:"想到一年後、五年後的未來，你整體的感受是？",cat:"未來觀感",dim:"future",lo:"充滿恐懼和絕望",hi:"充滿期待和信心"},
+  {text:"你相信「好事會發生在你身上」的程度是？",cat:"未來觀感",dim:"future",lo:"完全不相信，感覺總是倒霉",hi:"深信宇宙會帶來最好的安排"},
+  {text:"當你設定目標後，你對自己能實現它的信念有多強？",cat:"未來觀感",dim:"future",lo:"馬上覺得不可能，放棄",hi:"堅定信念，願意持續努力"},
+  {text:"整體而言，你對「現在這個當下的自己」感到滿意和平靜的程度是？",cat:"未來觀感",dim:"future",lo:"完全不滿意，非常不平靜",hi:"深感平靜，感恩當下"}
+];
+
+const DESCS={
+  "羞恥":"最低的意識層次，伴隨深度的自我厭惡與羞恥感。需要溫柔的自我關愛和專業的支持陪伴。",
+  "內疚":"強烈的內疚主導生活，過去的錯誤佔據大部分注意力。學習寬恕自己是首要任務。",
+  "冷漠":"對生活感到無力和絕望，缺乏改變的動力。從最微小的行動開始，不強求速度。",
+  "悲傷":"深感失落與哀傷。悲傷比冷漠更有能量，因為你還在感受，允許情緒流動是療癒的開始。",
+  "恐懼":"恐懼和焦慮主導生活，看世界充滿危機。學習呼吸和冥想，每天做一件微小的勇敢事。",
+  "慾望":"強烈的渴望和欲求主導行動。慾望可以成為動力，關鍵是把它引向有意義的方向。",
+  "憤怒":"憤怒和怨恨是比冷漠更高的能量，有時是改變的催化劑。找到健康的出口是關鍵。",
+  "驕傲":"表面積極，但建立在外界條件上，容易因環境變化而崩潰。這是進入勇氣的跳板。",
+  "勇氣":"200分臨界點！你已進入正能量區間。生活充滿可能性，你有能力面對挑戰、持續成長。",
+  "中立":"不再被外界左右，靈活適應環境。這是穩定的基礎，從這裡繼續向上探索。",
+  "意願":"積極向上，願意努力和改變。你開始相信自己有能力創造更好的生活。",
+  "接納":"充分接納自己和生活。你負起責任，明白生命是由內而外創造的。",
+  "理性":"高度理性和智慧，能客觀看待事物，超越情緒干擾做出明智決策。",
+  "愛":"無條件的愛與慈悲。你的存在本身就是正面影響力，一個愛的人可以抵消750,000個低頻能量者。",
+  "喜悅":"內在深處的喜悅不依賴外界。這是真正自我實現的境界，極為罕見且珍貴。",
+  "平和":"超越一切的平和，內外分別消失。每一千萬人中才有一個到達此境。",
+  "開悟":"人類意識的頂峰，與神性合一。歷史上的聖賢大師們所在的層次。"
+};
+
+function mapScore(v){return 20+Math.round((v/10)*980)}
+function getLevel(s){return LEVELS.find(l=>s>=l.min&&s<=l.max)||LEVELS[LEVELS.length-1]}
+function barColor(s){
+  if(s<100)return"#EF4444";if(s<200)return"#F59E0B";
+  if(s<350)return"#10B981";if(s<500)return"#6366F1";return"#F43F5E";
+}
+function sliderDesc(v){
+  if(v<=2)return"幾乎從不";if(v<=4)return"偶爾如此";
+  if(v===5)return"有時候";if(v<=7)return"通常如此";
+  if(v<=9)return"大多數時候";return"幾乎總是";
+}
+
+let S={phase:"intro",cur:0,ans:new Array(20).fill(null)};
+
+function rIntro(){return`
+<div style="padding:0.5rem 0">
+<h2 class="intro-h">霍金斯意識能量測試 2.0</h2>
+<p class="intro-p">大衛·霍金斯博士（David R. Hawkins）經過近三十年研究，將人類意識映射到 1–1000 的能量頻率，分為 17 個層次。200 是正負能量的關鍵分界線。</p>
+<p class="intro-p">本測試共 20 題，涵蓋 5 個核心維度，每題以 0–10 分滑桿作答，結果更加精準細緻。</p>
+<div class="scale-row">
+  <div class="sp" style="background:#EF4444"></div>
+  <div class="sp" style="background:#F59E0B"></div>
+  <div class="sp" style="background:#10B981"></div>
+  <div class="sp" style="background:#6366F1"></div>
+  <div class="sp" style="background:#F43F5E"></div>
+</div>
+<div class="sp-lbl"><span>羞恥 (20)</span><span>勇氣 (200)</span><span>理性 (400)</span><span>開悟 (1000)</span></div>
+<div class="tag-grid">
+  <div class="tag">情緒狀態<br><small style="opacity:0.6">4題</small></div>
+  <div class="tag">人際能量<br><small style="opacity:0.6">4題</small></div>
+  <div class="tag">生命意義<br><small style="opacity:0.6">4題</small></div>
+  <div class="tag">自我認知<br><small style="opacity:0.6">4題</small></div>
+  <div class="tag">未來觀感<br><small style="opacity:0.6">4題</small></div>
+  <div class="tag">約 3 分鐘</div>
+</div>
+<button class="btn-pri" onclick="startQuiz()">開始測試</button>
+</div>`}
+
+function rQuiz(){
+  const q=QUESTIONS[S.cur];
+  const prog=Math.round((S.cur/20)*100);
+  const val=S.ans[S.cur]!==null?S.ans[S.cur]:5;
+  return`
+<div style="padding:0.5rem 0">
+<div class="prog-bar"><div class="prog-fill" style="width:${prog}%"></div></div>
+<div class="q-meta">
+  <span class="q-num">題目 ${S.cur+1} / 20</span>
+  <span class="q-cat">${q.cat}</span>
+</div>
+<div class="q-text">${q.text}</div>
+<div class="slider-wrap">
+  <div class="slider-labels"><span>${q.lo}</span><span>${q.hi}</span></div>
+  <input type="range" min="0" max="10" step="1" value="${val}" id="sl" oninput="upd(this.value)">
+  <div class="slider-val-row">
+    <div style="text-align:center">
+      <div class="slider-val" id="sv">${val}</div>
+      <div class="slider-desc" id="sd">${sliderDesc(val)}</div>
+    </div>
+  </div>
+</div>
+<div class="nav-row">
+  <button class="btn-sec" onclick="back()" ${S.cur===0?"style='visibility:hidden'":""}>← 返回</button>
+  <button class="btn-pri" onclick="next()">${S.cur===19?"查看結果 →":"下一題 →"}</button>
+</div>
+</div>`}
+
+function rResult(){
+  const fa=S.ans.map(a=>a!==null?a:5);
+  const avg=fa.reduce((s,v)=>s+v,0)/20;
+  const sc=Math.round(mapScore(avg));
+  const lv=getLevel(sc);
+  const bc=barColor(sc);
+  const bw=Math.min(Math.round((sc/1000)*100),100);
+
+  const dims={};
+  DIMS.forEach(d=>{dims[d.key]={t:0,c:0}});
+  QUESTIONS.forEach((q,i)=>{dims[q.dim].t+=fa[i];dims[q.dim].c++;});
+  const ds=DIMS.map(d=>({label:d.label,avg:Math.round((dims[d.key].t/dims[d.key].c)*10)/10,score:Math.round(mapScore(dims[d.key].t/dims[d.key].c))}));
+
+  return`
+<div style="padding:0.5rem 0">
+<div style="font-size:12px;color:#888;margin-bottom:0.5rem">你的測試結果</div>
+<div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
+  <span class="big-num" style="color:${bc}">${sc}</span>
+  <span class="level-name" style="color:${lv.color}">${lv.name} · ${lv.en}</span>
+</div>
+<div class="bar-wrap"><div class="bar-fill" id="mb" style="width:0%;background:${bc}"></div></div>
+
+<div class="res-card">
+  <h3>層次解讀</h3>
+  <p>${lv.name}（${lv.min}–${lv.max===1000?"1000":lv.max}）：${DESCS[lv.name]||""}</p>
+</div>
+<div class="res-card">
+  <h3>關於 200 分界線</h3>
+  <p>${sc>=200
+    ?"你目前處於正能量區間（200以上）。這代表你的意識已進入「力量（Power）」的領域，能夠真正影響和提升周圍的人，而非依賴外力（Force）維持自己。"
+    :"你目前處於200分以下。這不是評判——覺察本身就已是改變的起點。霍金斯指出，誠實、同情和理解是提升能量的關鍵。你願意做這個測試，說明你已經在路上了。"}</p>
+</div>
+<div class="res-card">
+  <h3>五維度分析</h3>
+  <div class="dim-grid">
+    ${ds.map(d=>`<div class="dim-card">
+      <div class="dim-label">${d.label}</div>
+      <div class="dim-bar-wrap"><div class="dim-bar" style="width:${Math.round(d.avg/10*100)}%;background:${barColor(d.score)}"></div></div>
+      <div class="dim-score" style="color:${barColor(d.score)}">${d.score} <span style="font-size:11px;color:#888">(${d.avg}/10)</span></div>
+    </div>`).join("")}
+  </div>
+</div>
+<div class="tip-box">
+  <h3>提升建議</h3>
+  <ul>${lv.tips.map(t=>`<li>${t}</li>`).join("")}</ul>
+</div>
+<div class="res-card" style="margin-top:1rem">
+  <h3>17個能量層次對照</h3>
+  <div class="levels-list">
+    ${LEVELS.map(l=>`<div class="lv-row ${sc>=l.min&&sc<=l.max?"active":""}">
+      <div class="lv-dot" style="background:${l.dot}"></div>
+      <span class="lv-n" style="color:${sc>=l.min&&sc<=l.max?l.color:"#333"}">${l.name}</span>
+      <span class="lv-r">${l.min}–${l.max===1000?"1000":l.max}</span>
+      ${sc>=l.min&&sc<=l.max?`<span style="font-size:11px;color:${l.color};font-weight:500">← 你在這裡</span>`:""}
+    </div>`).join("")}
+  </div>
+</div>
+<div class="btn-row">
+  <button class="btn-pri" onclick="startQuiz()">重新測試</button>
+  <button class="btn-sec" onclick="backIntro()">回到首頁</button>
+</div>
+<p class="note">* 能量層次會隨你的狀態和環境而變化，建議在不同時期多次測試追蹤自己的成長軌跡。本測試基於大衛·霍金斯博士《心靈能量》（Power vs. Force）理論設計，僅供自我反思，並非臨床診斷工具。</p>
+</div>`}
+
+function render(){
+  const app=document.getElementById("app");
+  if(S.phase==="intro")app.innerHTML=rIntro();
+  else if(S.phase==="quiz")app.innerHTML=rQuiz();
+  else{
+    app.innerHTML=rResult();
+    setTimeout(()=>{
+      const b=document.getElementById("mb");
+      if(b){const fa=S.ans.map(a=>a!==null?a:5);const avg=fa.reduce((s,v)=>s+v,0)/20;const sc=Math.round(mapScore(avg));b.style.width=Math.min(Math.round((sc/1000)*100),100)+"%";}
+    },100);
+  }
+}
+function startQuiz(){S={phase:"quiz",cur:0,ans:new Array(20).fill(null)};render();}
+function backIntro(){S={phase:"intro",cur:0,ans:new Array(20).fill(null)};render();}
+function upd(v){S.ans[S.cur]=parseInt(v);document.getElementById("sv").textContent=v;document.getElementById("sd").textContent=sliderDesc(parseInt(v));}
+function next(){if(S.ans[S.cur]===null)S.ans[S.cur]=5;if(S.cur===19)S.phase="result";else S.cur++;render();}
+function back(){if(S.cur>0){S.cur--;render();}}
+
+render();
+</script>
+</body>
+</html>
